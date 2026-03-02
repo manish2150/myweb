@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Alish Bhandari — Best Video Editor in Pokhara</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Same styles as home.html ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e1e2f;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll Animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background 0.3s, padding 0.3s, box-shadow 0.3s;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(15px);
+            padding: 0.7rem 5%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b4a;
+            border-bottom-color: #ff6b4a;
+        }
+
+        .register-btn {
+            background: #ff6b4a;
+            color: white !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem !important;
+            border-bottom: none !important;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        .register-btn:hover {
+            background: #ff512b;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2.5px;
+            background: #2d2d3a;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            z-index: 300;
+            padding: 4rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2.2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            margin-top: 3rem;
+        }
+
+        .sidebar-links li {
+            margin: 1.8rem 0;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .sidebar-links a:hover {
+            background: #fff0e8;
+            color: #ff6b4a;
+            padding-left: 1.5rem;
+        }
+
+        .sidebar-book {
+            background: #ff6b4a;
+            color: white !important;
+            text-align: center;
+            border-radius: 30px !important;
+            padding: 0.3rem 0.8rem !important;
+            margin-top: 2rem;
+        }
+        .sidebar-book:hover {
+            background: #ff512b !important;
+            color: white !important;
+            padding-left: 0.8rem !important;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(3px);
+            z-index: 250;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 8rem 5% 3rem;
+            background: #fafaff;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #2d2d3a, #ff6b4a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        .page-header p {
+            font-size: 1.2rem;
+            color: #4a4a5a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 3rem 5% 5rem;
+            background: white;
+        }
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+        }
+        .contact-info {
+            flex: 1 1 300px;
+        }
+        .contact-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e1e2f;
+            margin-bottom: 1rem;
+        }
+        .contact-info h2 span {
+            color: #ff6b4a;
+        }
+        .contact-info p {
+            font-size: 1rem;
+            color: #4a4a5a;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        /* Contact cards */
+        .contact-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .contact-card {
+            background: #fafaff;
+            border-radius: 20px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            box-shadow: 0 8px 15px rgba(255,107,74,0.05);
+            border: 1px solid #ffe2d6;
+            transition: transform 0.2s;
+        }
+        .contact-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 12px 20px rgba(255,107,74,0.1);
+        }
+        .contact-card i {
+            font-size: 1.8rem;
+            color: #ff6b4a;
+            width: 40px;
+            text-align: center;
+        }
+        .contact-card .card-content {
+            flex: 1;
+        }
+        .contact-card .card-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 0.2rem;
+        }
+        .contact-card .card-content p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2d2d3a;
+            margin: 0;
+        }
+        .contact-card .card-content a {
+            color: #2d2d3a;
+            text-decoration: none;
+        }
+        .contact-card .card-content a:hover {
+            color: #ff6b4a;
+        }
+
+        /* Social icons - now responsive and smaller on mobile */
+        .social-links-large {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .social-icon-large {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: #f5f5fa;
+            border-radius: 50%;
+            color: #ff6b4a;
+            font-size: 1.6rem;
+            transition: 0.3s;
+            text-decoration: none;
+            box-shadow: 0 8px 15px rgba(255,107,74,0.1);
+            border: 1px solid #ffe2d6;
+        }
+        .social-icon-large:hover {
+            background: #ff6b4a;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Mobile: smaller icons */
+        @media (max-width: 600px) {
+            .social-icon-large {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+        }
+
+        .contact-form {
+            flex: 2 1 500px;
+            background: #fafaff;
+            border-radius: 32px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px -12px rgba(255,107,74,0.2);
+            border: 1px solid #ffe2d6;
+        }
+        .contact-form h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e1e2f;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #eee;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: 0.2s;
+            background: white;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #ff6b4a;
+            outline: none;
+        }
+        .form-group textarea {
+            border-radius: 30px;
+            resize: vertical;
+        }
+        .contact-form button {
+            background: #ff6b4a;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px -8px #ff6b4a;
+            width: 100%;
+        }
+        .contact-form button:hover {
+            background: #ff512b;
+            transform: translateY(-3px);
+        }
+
+        /* Footer (same as home) */
+        footer {
+            background: #1e1e2f;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-links a:hover {
+            color: #ff6b4a;
+        }
+        .footer-links .footer-book {
+            background: #ff6b4a;
+            color: white;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+        }
+        .footer-links .footer-book:hover {
+            background: #ff512b;
+            color: white;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .social-link {
+            color: #aaa;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: #2d2d3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            text-decoration: none !important;
+        }
+        .social-link:hover {
+            color: #ff6b4a;
+            background: #3d3d50;
+            transform: translateY(-4px);
+        }
+        .copyright {
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        /* Back to top */
+        .back-to-top {
+            position: fixed;
+            bottom: 1.8rem;
+            right: 1.8rem;
+            background: #ff6b4a;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 99;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.5);
+            text-decoration: none;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #ff512b;
+            transform: scale(1.1);
+        }
+
+        /* MODALS (same as home) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2.2rem;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+        .modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #1e1e2f;
+        }
+        .modal p {
+            color: #5a5a70;
+            margin-bottom: 1.5rem;
+        }
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .modal input, .modal select, .modal textarea {
+            font-family: 'Inter', sans-serif;
+            padding: 0.8rem 1.2rem;
+            border: 1.5px solid #eee;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #fafafa;
+        }
+        .modal input:focus, .modal select:focus, .modal textarea:focus {
+            border-color: #ff6b4a;
+            outline: none;
+            background: white;
+        }
+        .modal button[type="submit"] {
+            background: #ff6b4a;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+        .modal button[type="submit"]:hover {
+            background: #ff512b;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: block;
+        }
+
+        /* WhatsApp quick modal */
+        #whatsappModal .modal-content {
+            text-align: center;
+        }
+        #whatsappModal h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #1e1e2f;
+        }
+        #whatsappModal .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin: 1.5rem 0 0.5rem;
+            transition: 0.2s;
+        }
+        #whatsappModal .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e2f;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            bottom: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 500px) {
+            .page-header h1 { font-size: 2.2rem; }
+            .contact-card {
+                padding: 1rem;
+            }
+            .toast {
+                border-radius: 30px;
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                white-space: normal;
+                width: 90%;
+                bottom: 20px;
+            }
+            .toast.show { bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">AlishBhandari</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><button class="register-btn" id="bookNowNav">Book Now</button></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeSidebar">&times;</button>
+        <ul class="sidebar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#" id="sidebarBookNow" class="sidebar-book">📅 Book Now</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Page Header -->
+    <section class="page-header fade-up">
+        <h1>Get in Touch</h1>
+        <p>Have a project in mind or just want to say hi? I'd love to hear from you.</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section fade-up">
+        <div class="contact-container">
+            <!-- Left side: info + social with updated cards -->
+            <div class="contact-info">
+                <h2><span>Let's</span> Connect</h2>
+                <p>Whether you need a video edit, drone footage, or want to join my editing course, I'm just a message away. Reach out through the form or directly on social media.</p>
+                
+                <!-- Contact cards - now with separate WhatsApp and Phone -->
+                <div class="contact-cards">
+                    <!-- Email -->
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <div class="card-content">
+                            <h4>Email</h4>
+                            <p><a href="mailto:alish@example.com">alish@example.com</a></p>
+                        </div>
+                    </div>
+                    <!-- WhatsApp -->
+                    <div class="contact-card">
+                        <i class="fab fa-whatsapp"></i>
+                        <div class="card-content">
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/9779817186819">+977 9817186819</a></p>
+                        </div>
+                    </div>
+                    <!-- Phone (regular) -->
+                    <div class="contact-card">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="card-content">
+                            <h4>Phone</h4>
+                            <p><a href="tel:+9779769487298">9769487298</a></p>
+                        </div>
+                    </div>
+                    <!-- Location -->
+                    <div class="contact-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="card-content">
+                            <h4>Location</h4>
+                            <p>Pokhara, Nepal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social icons - now responsive -->
+                <div class="social-links-large">
+                    <a href="https://www.facebook.com/jhateygamingofficial" class="social-icon-large" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/flowwith.alish/" class="social-icon-large" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/9779817186819?text=Hello%20Alish%2C%20I%20am%20interested!" class="social-icon-large" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@flowwith.alish" class="social-icon-large" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.youtube.com/@flowwithalish/playlists" class="social-icon-large" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Right side: contact form (includes phone field) -->
+            <div class="contact-form">
+                <h3>Send a Message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <!-- Phone field with validation: digits only, 7-15 characters -->
+                        <input type="tel" name="phone" placeholder="Phone Number" required 
+                               pattern="[0-9]{7,15}" title="Please enter 7 to 15 digits only" 
+                               inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" rows="5" placeholder="Your Message..." required></textarea>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" id="footerBookNow" class="footer-book">Book Now</a>
+        </div>
+        <div class="social-links">
+            <a href="https://wa.me/9779817186819?text=Hello%20Alish%2C%20I%20am%20interested!" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/jhateygamingofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/@flowwithalish/playlists" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/flowwith.alish/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="copyright">© 2026 Alish Bhandari. All Rights Reserved. | Best Video Editor in Pokhara</p>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- MODALS -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Booking Form Modal -->
+    <div class="modal" id="bookingModal">
+        <button class="close-modal" id="closeBookingModal">&times;</button>
+        <h2>Book Your Service</h2>
+        <p>Fill in the details and we’ll get back to you within 24h.</p>
+        <form id="bookingForm">
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <select name="service" required>
+                <option value="">Select Service</option>
+                <option value="Video Editing Service">Video Editing Service</option>
+                <option value="Aerial Drone Cinematography">Aerial Drone Cinematography</option>
+                <option value="Event Shoot">Event Shoot</option>
+                <option value="Video Editing Class">Video Editing Class</option>
+            </select>
+            <input type="tel" name="phone" placeholder="Phone Number" required 
+                   pattern="[0-9]{7,15}" title="Please enter 7 to 15 digits only" 
+                   inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <textarea name="description" rows="3" placeholder="Tell me about your project..."></textarea>
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
+
+    <!-- WhatsApp Quick Modal -->
+    <div class="modal" id="whatsappModal">
+        <button class="close-modal" id="closeWhatsappModal">&times;</button>
+        <div class="modal-content">
+            <h3 id="whatsappServiceTitle">Let's Connect</h3>
+            <p id="whatsappMessage">Click the button below to chat on WhatsApp and get a quick response.</p>
+            <a href="#" id="whatsappLink" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">Message sent successfully! We'll respond soon.</div>
+
+    <script>
+        (function() {
+            // navbar scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+
+            // sidebar
+            const hamburger = document.getElementById('hamburgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const closeBtn = document.getElementById('closeSidebar');
+            function openSidebar() { sidebar.classList.add('active'); overlay.classList.add('active'); }
+            function closeSidebarFunc() { sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+            hamburger.addEventListener('click', openSidebar);
+            closeBtn.addEventListener('click', closeSidebarFunc);
+            overlay.addEventListener('click', closeSidebarFunc);
+            document.querySelectorAll('.sidebar-links a').forEach(link => {
+                link.addEventListener('click', closeSidebarFunc);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) closeSidebarFunc();
+            });
+
+            // back to top
+            const backBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) backBtn.classList.add('show');
+                else backBtn.classList.remove('show');
+            });
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Scroll animations
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            fadeElements.forEach(el => fadeObserver.observe(el));
+
+            // MODALS
+            const modalOverlay = document.getElementById('modalOverlay');
+            const bookingModal = document.getElementById('bookingModal');
+            const whatsappModal = document.getElementById('whatsappModal');
+            const toast = document.getElementById('toast');
+            const bookingForm = document.getElementById('bookingForm');
+            const contactForm = document.getElementById('contactForm');
+
+            function resetBookingForm() {
+                bookingForm.reset();
+            }
+
+            function openModal(modal) {
+                modalOverlay.classList.add('active');
+                modal.classList.add('active');
+            }
+            function closeAllModals() {
+                modalOverlay.classList.remove('active');
+                bookingModal.classList.remove('active');
+                whatsappModal.classList.remove('active');
+                resetBookingForm();
+            }
+
+            modalOverlay.addEventListener('click', closeAllModals);
+            document.getElementById('closeBookingModal').addEventListener('click', closeAllModals);
+            document.getElementById('closeWhatsappModal').addEventListener('click', closeAllModals);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && (bookingModal.classList.contains('active') || whatsappModal.classList.contains('active'))) {
+                    closeAllModals();
+                }
+            });
+
+            // Book Now triggers
+            document.getElementById('bookNowNav').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+            document.getElementById('sidebarBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSidebarFunc();
+                openModal(bookingModal);
+            });
+            document.getElementById('footerBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+
+            // WhatsApp from service cards (if any on this page – none, but keep for consistency)
+            const droneBadges = document.querySelectorAll('.drone-badge');
+            const whatsappLink = document.getElementById('whatsappLink');
+            const whatsappServiceTitle = document.getElementById('whatsappServiceTitle');
+            const whatsappMessage = document.getElementById('whatsappMessage');
+            const baseWA = 'https://wa.me/9779817186819?text=';
+
+            droneBadges.forEach(badge => {
+                badge.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const service = badge.getAttribute('data-service') || badge.closest('.service-card')?.getAttribute('data-service') || 'Service';
+                    let displayService = service;
+                    if (service === 'Aerial Drone Cinematography') displayService = 'Drone Cinematography';
+                    whatsappServiceTitle.innerText = displayService;
+                    let customMsg = '';
+                    switch(service) {
+                        case 'Video Editing':
+                            customMsg = "Hello Alish, I'm interested in your Video Editing service. Can we discuss?";
+                            break;
+                        case 'Aerial Drone Cinematography':
+                            customMsg = "Hello Alish, I'm looking for Drone Footage / Aerial Cinematography. Let's talk!";
+                            break;
+                        case 'Event Shoot':
+                            customMsg = "Hi Alish, I need an Event Shoot coverage. Please share details.";
+                            break;
+                        case 'Editing Course':
+                            customMsg = "Hello Alish, I want to join your Video Editing Course. Tell me more.";
+                            break;
+                        default:
+                            customMsg = `Hello Alish, I'm interested in your ${service}.`;
+                    }
+                    whatsappMessage.innerText = `Click below to chat about ${displayService}.`;
+                    whatsappLink.href = baseWA + encodeURIComponent(customMsg);
+                    openModal(whatsappModal);
+                });
+            });
+
+            // --- Vibration + sound feedback ---
+            function playBeep(type) {
+                // Use Web Audio API to generate a simple beep
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                if (type === 'success') {
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.value = 0.2;
+                    oscillator.start();
+                    oscillator.stop(audioCtx.currentTime + 0.2);
+                    
+                    // Vibrate if supported
+                    if (navigator.vibrate) {
+                        navigator.vibrate([200, 100, 200]);
+                    }
+                } else {
+                    oscillator.frequency.value = 300;
+                    gainNode.gain.value = 0.15;
+                    oscillator.start();
+                    oscillator.stop(audioCtx.currentTime + 0.3);
+                    // No vibration for error
+                }
+            }
+
+            // Booking form submission (Formspree) with feedback
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(bookingForm);
+                // REPLACE WITH YOUR ACTUAL FORMSPREE ENDPOINT
+                const formspreeEndpoint = 'https://formspree.io/f/mrbalozl';
+
+                try {
+                    const response = await fetch(formspreeEndpoint, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        closeAllModals();
+                        toast.innerText = 'Message sent successfully!';
+                        toast.classList.add('show');
+                        playBeep('success');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    } else {
+                        toast.innerText = 'Submission failed. Please try again.';
+                        toast.classList.add('show');
+                        playBeep('error');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    }
+                } catch (error) {
+                    toast.innerText = 'Network error. Please check your connection.';
+                    toast.classList.add('show');
+                    playBeep('error');
+                    setTimeout(() => toast.classList.remove('show'), 4000);
+                }
+            });
+
+            // Contact form submission (separate Formspree endpoint) with feedback
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(contactForm);
+                    // REPLACE WITH YOUR ACTUAL FORMSPREE ENDPOINT FOR CONTACT
+                    const contactEndpoint = 'https://formspree.io/f/mrbalozl';
+
+                    try {
+                        const response = await fetch(contactEndpoint, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (response.ok) {
+                            contactForm.reset();
+                            toast.innerText = 'Message sent successfully!';
+                            toast.classList.add('show');
+                            playBeep('success');
+                            setTimeout(() => toast.classList.remove('show'), 4000);
+                        } else {
+                            toast.innerText = 'Submission failed. Please try again.';
+                            toast.classList.add('show');
+                            playBeep('error');
+                            setTimeout(() => toast.classList.remove('show'), 4000);
+                        }
+                    } catch (error) {
+                        toast.innerText = 'Network error. Please check your connection.';
+                        toast.classList.add('show');
+                        playBeep('error');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    }
+                });
+            }
+
+            // Smooth anchor links
+            document.querySelectorAll('a[href^="#"]:not(.social-link):not(.whatsapp-btn)').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#" || href === "") return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        })();
+    </script>
+    <!-- Important: Replace Formspree endpoints with your actual form IDs -->
+</body>
+</html>

@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio — Alish Bhandari | Best Video Editor in Pokhara</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e1e2f;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll Animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar (same as home) */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background 0.3s, padding 0.3s, box-shadow 0.3s;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(15px);
+            padding: 0.7rem 5%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b4a;
+            border-bottom-color: #ff6b4a;
+        }
+
+        .register-btn {
+            background: #ff6b4a;
+            color: white !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem !important;
+            border-bottom: none !important;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        .register-btn:hover {
+            background: #ff512b;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2.5px;
+            background: #2d2d3a;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            z-index: 300;
+            padding: 4rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2.2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            margin-top: 3rem;
+        }
+
+        .sidebar-links li {
+            margin: 1.8rem 0;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .sidebar-links a:hover {
+            background: #fff0e8;
+            color: #ff6b4a;
+            padding-left: 1.5rem;
+        }
+
+        .sidebar-book {
+            background: #ff6b4a;
+            color: white !important;
+            text-align: center;
+            border-radius: 30px !important;
+            padding: 0.3rem 0.8rem !important;
+            margin-top: 2rem;
+        }
+        .sidebar-book:hover {
+            background: #ff512b !important;
+            color: white !important;
+            padding-left: 0.8rem !important;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(3px);
+            z-index: 250;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero Video Section - adjusted for navbar */
+        .hero-video-section {
+            padding-top: 80px; /* Offset for fixed navbar */
+            width: 100%;
+            background: #000;
+            position: relative;
+        }
+        .hero-video-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        .hero-video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none; /* disables play/pause, mute button separate */
+        }
+        .mute-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.2s;
+        }
+        .mute-toggle:hover {
+            background: #ff6b4a;
+        }
+
+        /* Engaging Stats/Customer Strip */
+        .stats-strip {
+            background: #fafaff;
+            padding: 1.5rem 5%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem 4rem;
+            border-bottom: 1px solid #ffe2d6;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .stat-item i {
+            font-size: 2rem;
+            color: #ff6b4a;
+        }
+        .stat-item .stat-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e1e2f;
+        }
+        .stat-item .stat-content p {
+            font-size: 0.9rem;
+            color: #5a5a70;
+        }
+
+        /* Call to action buttons (Drive + YouTube) */
+        .cta-buttons {
+            text-align: center;
+            padding: 2rem 5% 1rem;
+            background: #ffffff;
+        }
+        .cta-buttons .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ff6b4a;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            margin: 0 0.5rem 1rem;
+            transition: 0.2s;
+        }
+        .cta-buttons .btn i {
+            font-size: 1.3rem;
+        }
+        .cta-buttons .btn:hover {
+            background: #ff512b;
+            transform: translateY(-2px);
+        }
+        .cta-buttons .btn-outline {
+            background: transparent;
+            border: 2px solid #ff6b4a;
+            color: #ff6b4a;
+        }
+        .cta-buttons .btn-outline:hover {
+            background: #ff6b4a;
+            color: white;
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            padding: 1rem 5% 2rem;
+            background: white;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .filter-btn {
+            background: #f5f5fa;
+            border: 1px solid #ffe2d6;
+            color: #2d2d3a;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .filter-btn.active {
+            background: #ff6b4a;
+            color: white;
+            border-color: #ff6b4a;
+        }
+        .filter-btn:hover {
+            background: #ff6b4a20;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-section {
+            padding: 0 5% 4rem;
+            background: white;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px -10px rgba(255,107,74,0.2);
+            border: 1px solid #ffe2d6;
+            cursor: pointer;
+            transition: transform 0.3s, opacity 0.3s ease;
+        }
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+        }
+        .portfolio-item.hidden {
+            display: none;
+        }
+        .video-type {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff6b4a;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1.5rem 1rem 1rem;
+            z-index: 1;
+        }
+        .video-overlay h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .video-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,107,74,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 3;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .portfolio-item:hover .play-button {
+            opacity: 1;
+        }
+
+        /* Show More / Show Less Button */
+        .show-more-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .show-more-btn {
+            background: #ff6b4a;
+            color: white;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px -8px #ff6b4a;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .show-more-btn:hover {
+            background: #ff512b;
+            transform: translateY(-2px);
+        }
+        .show-more-btn i {
+            transition: transform 0.2s;
+        }
+        .show-more-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        /* Second Full-width Video Section */
+        .second-video-section {
+            width: 100%;
+            background: #000;
+            position: relative;
+            margin-top: 2rem;
+        }
+        .second-video-container {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+        .second-video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+        }
+        .second-mute-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.2s;
+        }
+        .second-mute-toggle:hover {
+            background: #ff6b4a;
+        }
+
+        /* Message after second video */
+        .message-section {
+            padding: 4rem 5%;
+            background: #fafaff;
+            text-align: center;
+        }
+        .message-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .message-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e1e2f;
+            margin-bottom: 1.5rem;
+        }
+        .message-content h2 span {
+            color: #ff6b4a;
+        }
+        .message-content p {
+            font-size: 1.2rem;
+            color: #4a4a5a;
+            line-height: 1.8;
+        }
+
+        /* Video Modal (YouTube) - fullscreen disabled */
+        .video-player-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-player-modal.active {
+            display: flex;
+        }
+        .video-content {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            aspect-ratio: 16/9;
+        }
+        .close-button {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .close-button:hover {
+            color: #ff6b4a;
+        }
+        .video-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 16px;
+        }
+
+        /* Footer (same as home) */
+        footer {
+            background: #1e1e2f;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-links a:hover {
+            color: #ff6b4a;
+        }
+        .footer-links .footer-book {
+            background: #ff6b4a;
+            color: white;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+        }
+        .footer-links .footer-book:hover {
+            background: #ff512b;
+            color: white;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .social-link {
+            color: #aaa;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: #2d2d3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            text-decoration: none !important;
+        }
+        .social-link:hover {
+            color: #ff6b4a;
+            background: #3d3d50;
+            transform: translateY(-4px);
+        }
+        .copyright {
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 1.8rem;
+            right: 1.8rem;
+            background: #ff6b4a;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 99;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.5);
+            text-decoration: none;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #ff512b;
+            transform: scale(1.1);
+        }
+
+        /* MODALS (booking & whatsapp from home) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2.2rem;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+        .modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #1e1e2f;
+        }
+        .modal p {
+            color: #5a5a70;
+            margin-bottom: 1.5rem;
+        }
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .modal input, .modal select, .modal textarea {
+            font-family: 'Inter', sans-serif;
+            padding: 0.8rem 1.2rem;
+            border: 1.5px solid #eee;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #fafafa;
+        }
+        .modal input:focus, .modal select:focus, .modal textarea:focus {
+            border-color: #ff6b4a;
+            outline: none;
+            background: white;
+        }
+        .modal button[type="submit"] {
+            background: #ff6b4a;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+        .modal button[type="submit"]:hover {
+            background: #ff512b;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: block;
+        }
+        #whatsappModal .modal-content {
+            text-align: center;
+        }
+        #whatsappModal h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #1e1e2f;
+        }
+        #whatsappModal .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin: 1.5rem 0 0.5rem;
+            transition: 0.2s;
+        }
+        #whatsappModal .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e2f;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            bottom: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 800px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .stats-strip {
+                gap: 1.5rem;
+            }
+        }
+        @media (max-width: 500px) {
+            .toast {
+                border-radius: 30px;
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                white-space: normal;
+                width: 90%;
+                bottom: 20px;
+            }
+            .toast.show { bottom: 30px; }
+            .cta-buttons .btn {
+                display: block;
+                margin: 0.5rem auto;
+                width: fit-content;
+            }
+            .stats-strip {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">AlishBhandari</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><button class="register-btn" id="bookNowNav">Book Now</button></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeSidebar">&times;</button>
+        <ul class="sidebar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#" id="sidebarBookNow" class="sidebar-book">📅 Book Now</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Looping Hero Video (mute/unmute only) - with top padding to avoid navbar -->
+    <section class="hero-video-section" id="heroVideoSection">
+        <div class="hero-video-container">
+            <!-- Replace src with your own 1920x1080 video file -->
+            <video id="heroVideo" loop autoplay playsinline preload="auto">
+                <source src="assets/deep.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="mute-toggle" id="muteToggle"><i class="fas fa-volume-up"></i></button>
+        </div>
+    </section>
+
+    <!-- Engaging Stats/Customer Strip -->
+    <section class="stats-strip fade-up">
+        <div class="stat-item">
+            <i class="fas fa-video"></i>
+            <div class="stat-content">
+                <h4>2000+ Projects</h4>
+                <p>Completed worldwide</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-smile"></i>
+            <div class="stat-content">
+                <h4>100% Satisfaction</h4>
+                <p>From 50+ clients</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-clock"></i>
+            <div class="stat-content">
+                <h4>4+ Years</h4>
+                <p>Professional experience</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <div class="stat-content">
+                <h4>65+ Brands</h4>
+                <p>Trusted partners</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Buttons (Drive + YouTube) -->
+    <section class="cta-buttons fade-up">
+        <a href="https://drive.google.com/drive/folders/1GQ_JRmztMohY1nBbWltcs3pV03cDEQ-H" class="btn" target="_blank"><i class="fab fa-google-drive"></i> Watch on Drive</a>
+        <a href="https://www.youtube.com/@flowwithalish/playlists" class="btn btn-outline" target="_blank"><i class="fab fa-youtube"></i> Watch on YouTube</a>
+    </section>
+
+    <!-- Filter Buttons -->
+    <section class="filter-section fade-up">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="reel">Reels</button>
+            <button class="filter-btn" data-filter="graphical">Graphical</button>
+            <button class="filter-btn" data-filter="events">Events</button>
+            <button class="filter-btn" data-filter="wedding">Wedding</button>
+            <button class="filter-btn" data-filter="vfx">VFX</button>
+            <button class="filter-btn" data-filter="tvc">TVC</button>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid (preserved from old code) -->
+    <section class="portfolio-section fade-up">
+        <div class="portfolio-grid" id="portfolioGrid">
+            <!-- Reel 1 -->
+            <div class="portfolio-item" data-video-id="8nAA83hYBwg" data-type="reel">
+                <div class="video-type reel-type">Reel</div>
+                <div class="video-container">
+                    <img src="https://img.youtube.com/vi/8nAA83hYBwg/maxresdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Fear of GOD!</h3>
+                        <p>Reel for foreign client showcasing B-rolls and smooth edits.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Reel 2 -->
+            <div class="portfolio-item" data-video-id="XHWmLm4F2jI" data-type="reel">
+                <div class="video-type reel-type">Reel</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/XHWmLm4F2jI/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Reel for Nepali client mixing graphics with cool animation and sound effects.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Reel 3 -->
+            <div class="portfolio-item" data-video-id="Fa2zJfK_2E4" data-type="reel">
+                <div class="video-type reel-type">Reel</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/Fa2zJfK_2E4/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Reel for Nepali client mixing graphics with cool animation and sound effects.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Reel 4 -->
+            <div class="portfolio-item" data-video-id="ZyhuXe1_u3M" data-type="reel">
+                <div class="video-type reel-type">Reel</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/ZyhuXe1_u3M/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Reel for Nepali client mixing graphics with cool animation and sound effects.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Reel 5 -->
+            <div class="portfolio-item" data-video-id="O-MywkLBVsw" data-type="reel">
+                <div class="video-type reel-type">Reel</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/O-MywkLBVsw/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Reel for Nepali client mixing graphics with cool animation and sound effects.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Graphical 1 -->
+            <div class="portfolio-item" data-video-id="yRQRLF9U2Xo" data-type="graphical">
+                <div class="video-type">Graphical</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/yRQRLF9U2Xo/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Playing with motions,animation in entire video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Graphical 2 -->
+            <div class="portfolio-item" data-video-id="QMrXqKb6K60" data-type="graphical">
+                <div class="video-type">Graphical</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/QMrXqKb6K60/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Playing with motions,animation in entire video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Graphical 3 -->
+            <div class="portfolio-item" data-video-id="V3TQAWgYbDU" data-type="graphical">
+                <div class="video-type">Graphical</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/V3TQAWgYbDU/hqdefault.jpg" alt="Music Festival Highlights" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Playing with motions,animation in entire video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Graphical 4 -->
+            <div class="portfolio-item" data-video-id="EzA-ni3jgmg" data-type="graphical">
+                <div class="video-type">Graphical</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/EzA-ni3jgmg/hqdefault.jpg" alt="Nature Documentary" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>Playing with motions,animation in entire video. Made for BIG SCREEN</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- TVC 1 -->
+            <div class="portfolio-item" data-video-id="Et2qxvQ4rEc" data-type="tvc">
+                <div class="video-type">TVC</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/Et2qxvQ4rEc/hqdefault.jpg" alt="Nature Documentary" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>TVC</h3>
+                        <p>School's Television Commercial.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- TVC 2 -->
+            <div class="portfolio-item" data-video-id="6MLjm1EbOGI" data-type="tvc">
+                <div class="video-type">TVC</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/6MLjm1EbOGI/hqdefault.jpg" alt="Nature Documentary" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>TVC</h3>
+                        <p>School's Television Commercial.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Filmy Text Anim (graphical) -->
+            <div class="portfolio-item" data-video-id="dTsJvp2_3vs" data-type="graphical">
+                <div class="video-type">Filmy Text Anim.</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/dTsJvp2_3vs/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Film Anim.</h3>
+                        <p>This text animation gives you the vibes of flim.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Music Teaser (events) -->
+            <div class="portfolio-item" data-video-id="lAgrYnn-t_o" data-type="events">
+                <div class="video-type">Music Teaser</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/lAgrYnn-t_o/hqdefault.jpg" alt="Family Adventure" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Teaser</h3>
+                        <p>Teaser of a music video acc. to Client Needs.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Highlight (events) -->
+            <div class="portfolio-item" data-video-id="xw3KOJdWF_E" data-type="events">
+                <div class="video-type">Highlight</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/xw3KOJdWF_E/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Event</h3>
+                        <p>Covering the entire activities in short. Event Highlight video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Logo Animation (graphical) -->
+            <div class="portfolio-item" data-video-id="-9iUY-pGJaQ" data-type="graphical">
+                <div class="video-type">Logo Animation</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/-9iUY-pGJaQ/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <p>This logo animation give you the feel of flim production company animation.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Wedding 1 -->
+            <div class="portfolio-item" data-video-id="_mk8DkN9mog" data-type="wedding">
+                <div class="video-type">Wedding</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/_mk8DkN9mog/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Weed Showreel</h3>
+                        <p>Showing color grading, building trust that I can edit weed video too.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Wedding 2 -->
+            <div class="portfolio-item" data-video-id="S1XOIM6mrXc" data-type="wedding">
+                <div class="video-type">Wedding</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/S1XOIM6mrXc/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Weed Showreel</h3>
+                        <p>Showing color grading, building trust that I can edit weed video too.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- Rap Music Video (vfx) -->
+            <div class="portfolio-item" data-video-id="uBEJGdVA-N8" data-type="vfx">
+                <div class="video-type">Rap Music Video</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/uBEJGdVA-N8/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Rap Music Vdo.</h3>
+                        <p>Rap Music Video that content amazing transition,cuts,fx etc.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- VFX 1 -->
+            <div class="portfolio-item" data-video-id="L52BvXY2Ikg" data-type="vfx">
+                <div class="video-type">Highlight | VFX</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/L52BvXY2Ikg/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Event</h3>
+                        <p>Covering the entire activities in short. Event Highlight video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <!-- VFX 2 -->
+            <div class="portfolio-item" data-video-id="Ga7E3QK2vyo" data-type="vfx">
+                <div class="video-type">VFX | SOUND MIXING</div>
+                <div class="video-container">
+                    <img src="https://i.ytimg.com/vi/Ga7E3QK2vyo/hqdefault.jpg" alt="Abstract Art Film" class="video-thumbnail">
+                    <div class="video-overlay">
+                        <h3>Event</h3>
+                        <p>Covering the entire activities in short. Event Highlight video.</p>
+                    </div>
+                    <div class="play-button"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Show More / Show Less Button -->
+        <div class="show-more-container">
+            <button class="show-more-btn" id="showMoreBtn"><i class="fas fa-chevron-down"></i> Show More</button>
+        </div>
+    </section>
+
+    <!-- Second Full-width Looping Video -->
+    <section class="second-video-section" id="secondVideoSection">
+        <div class="second-video-container">
+            <!-- Replace src with your own second 1920x1080 video file -->
+            <video id="secondVideo" loop autoplay playsinline preload="auto">
+                <source src="assets/wed.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="second-mute-toggle" id="secondMuteToggle"><i class="fas fa-volume-up"></i></button>
+        </div>
+    </section>
+
+    <!-- Message Section after second video -->
+    <section class="message-section fade-up">
+        <div class="message-content">
+            <h2><span>Your Story</span> Deserves the Best</h2>
+            <p>Every frame tells a story. Let me help you tell yours with cinematic quality, creative editing, and a personal touch. From reels to weddings, events to TVCs – I bring your vision to life.</p>
+        </div>
+    </section>
+
+    <!-- Video Player Modal (YouTube) - fullscreen disabled -->
+    <div class="video-player-modal" id="videoPlayerModal">
+        <div class="video-content">
+            <div class="close-button" id="closeVideoModal"><i class="fas fa-times"></i></div>
+            <iframe class="video-iframe" id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="home.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" id="footerBookNow" class="footer-book">Book Now</a>
+        </div>
+        <div class="social-links">
+            <a href="https://wa.me/9779817186819?text=Hello%20Alish%2C%20I%20am%20interested!" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/jhateygamingofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/@flowwithalish/playlists" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/flowwith.alish/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="copyright">© 2026 Alish Bhandari. All Rights Reserved. | Best Video Editor in Pokhara</p>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- MODALS (booking & whatsapp from home) -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="bookingModal">
+        <button class="close-modal" id="closeBookingModal">&times;</button>
+        <h2>Book Your Service</h2>
+        <p>Fill in the details and we’ll get back to you within 24h.</p>
+        <form id="bookingForm">
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <select name="service" required>
+                <option value="">Select Service</option>
+                <option value="Video Editing Service">Video Editing Service</option>
+                <option value="Aerial Drone Cinematography">Aerial Drone Cinematography</option>
+                <option value="Event Shoot">Event Shoot</option>
+                <option value="Video Editing Class">Video Editing Class</option>
+            </select>
+            <input type="tel" name="phone" placeholder="Phone Number" required 
+                   pattern="[0-9]{7,15}" title="Please enter 7 to 15 digits only" 
+                   inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <textarea name="description" rows="3" placeholder="Tell me about your project..."></textarea>
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
+    <div class="modal" id="whatsappModal">
+        <button class="close-modal" id="closeWhatsappModal">&times;</button>
+        <div class="modal-content">
+            <h3 id="whatsappServiceTitle">Let's Connect</h3>
+            <p id="whatsappMessage">Click the button below to chat on WhatsApp and get a quick response.</p>
+            <a href="#" id="whatsappLink" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+    </div>
+    <div class="toast" id="toast">Message sent successfully! We'll respond soon.</div>
+
+    <script>
+        (function() {
+            // Navbar scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+
+            // Sidebar
+            const hamburger = document.getElementById('hamburgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const closeBtn = document.getElementById('closeSidebar');
+            function openSidebar() { sidebar.classList.add('active'); overlay.classList.add('active'); }
+            function closeSidebarFunc() { sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+            hamburger.addEventListener('click', openSidebar);
+            closeBtn.addEventListener('click', closeSidebarFunc);
+            overlay.addEventListener('click', closeSidebarFunc);
+            document.querySelectorAll('.sidebar-links a').forEach(link => {
+                link.addEventListener('click', closeSidebarFunc);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) closeSidebarFunc();
+            });
+
+            // Back to top
+            const backBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) backBtn.classList.add('show');
+                else backBtn.classList.remove('show');
+            });
+            
+            // FIX: Modified back to top click handler to ensure videos keep playing
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // After scrolling, check if videos are paused and resume them
+                setTimeout(() => {
+                    const heroVideo = document.getElementById('heroVideo');
+                    const secondVideo = document.getElementById('secondVideo');
+                    
+                    if (heroVideo && heroVideo.paused) {
+                        heroVideo.play().catch(() => {}); // Ignore autoplay errors
+                    }
+                    if (secondVideo && secondVideo.paused) {
+                        secondVideo.play().catch(() => {});
+                    }
+                }, 500); // Wait for scroll to finish
+            });
+
+            // Scroll animations
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            fadeElements.forEach(el => fadeObserver.observe(el));
+
+            // ========== HERO VIDEO ==========
+            const heroVideo = document.getElementById('heroVideo');
+            const muteToggle = document.getElementById('muteToggle');
+            let heroUserMuted = false; // we aim for unmuted initially
+            let heroInteracted = false; // whether user has manually toggled
+
+            if (heroVideo && muteToggle) {
+                // Start with muted = false, try to play
+                heroVideo.muted = false;
+                const playPromise = heroVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Autoplay with sound blocked – fallback to muted
+                        console.log('Autoplay with sound blocked, muting hero video');
+                        heroVideo.muted = true;
+                        heroUserMuted = true;
+                        muteToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                        
+                        // Add one-time global click listener to unmute
+                        const unmuteOnClick = () => {
+                            if (heroVideo.muted) {
+                                heroVideo.muted = false;
+                                heroUserMuted = false;
+                                muteToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                            }
+                            document.removeEventListener('click', unmuteOnClick);
+                        };
+                        document.addEventListener('click', unmuteOnClick, { once: true });
+                    });
+                }
+
+                // Manual mute toggle
+                muteToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    heroVideo.muted = !heroVideo.muted;
+                    heroUserMuted = heroVideo.muted;
+                    heroInteracted = true;
+                    muteToggle.innerHTML = heroVideo.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+                });
+
+                // Intersection Observer for hero video
+                const heroSection = document.getElementById('heroVideoSection');
+                const heroObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) {
+                            // Video out of view -> mute
+                            heroVideo.muted = true;
+                            muteToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                        } else {
+                            // Back in view -> restore user preference
+                            heroVideo.muted = heroUserMuted;
+                            muteToggle.innerHTML = heroUserMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+                        }
+                    });
+                }, { threshold: 0.2 });
+
+                heroObserver.observe(heroSection);
+            }
+
+            // ========== SECOND VIDEO ==========
+            const secondVideo = document.getElementById('secondVideo');
+            const secondMuteToggle = document.getElementById('secondMuteToggle');
+            let secondUserMuted = false;
+            let secondInteracted = false;
+
+            if (secondVideo && secondMuteToggle) {
+                secondVideo.muted = false;
+                const playPromise = secondVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Autoplay with sound blocked, muting second video');
+                        secondVideo.muted = true;
+                        secondUserMuted = true;
+                        secondMuteToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                        
+                        const unmuteOnClick = () => {
+                            if (secondVideo.muted) {
+                                secondVideo.muted = false;
+                                secondUserMuted = false;
+                                secondMuteToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                            }
+                            document.removeEventListener('click', unmuteOnClick);
+                        };
+                        document.addEventListener('click', unmuteOnClick, { once: true });
+                    });
+                }
+
+                secondMuteToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    secondVideo.muted = !secondVideo.muted;
+                    secondUserMuted = secondVideo.muted;
+                    secondInteracted = true;
+                    secondMuteToggle.innerHTML = secondVideo.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+                });
+
+                const secondSection = document.getElementById('secondVideoSection');
+                const secondObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) {
+                            secondVideo.muted = true;
+                            secondMuteToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                        } else {
+                            secondVideo.muted = secondUserMuted;
+                            secondMuteToggle.innerHTML = secondUserMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+                        }
+                    });
+                }, { threshold: 0.2 });
+
+                secondObserver.observe(secondSection);
+            }
+
+            // ========== FILTER FUNCTIONALITY ==========
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const showMoreBtn = document.getElementById('showMoreBtn');
+            let visibleCount = 8; // initially show 8 videos
+            const totalItems = portfolioItems.length;
+
+            // Function to update visibility based on filter and show-more
+            function updateVisibility() {
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                let visibleIndex = 0;
+                portfolioItems.forEach((item, index) => {
+                    const type = item.getAttribute('data-type');
+                    const matchesFilter = (activeFilter === 'all' || type === activeFilter);
+                    // Determine if this item should be shown based on filter AND show-more limit
+                    if (matchesFilter) {
+                        visibleIndex++;
+                        if (visibleIndex <= visibleCount) {
+                            item.classList.remove('hidden');
+                            // Add a slight animation
+                            item.style.opacity = '0';
+                            setTimeout(() => { item.style.opacity = '1'; }, 10);
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                // Update button text
+                const totalVisible = Array.from(portfolioItems).filter(item => 
+                    (activeFilter === 'all' || item.getAttribute('data-type') === activeFilter)
+                ).length;
+
+                if (visibleCount >= totalVisible) {
+                    showMoreBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
+                } else {
+                    showMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Show More';
+                }
+            }
+
+            // Filter buttons click
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    // Reset visible count to 8 when changing filter
+                    visibleCount = 8;
+                    updateVisibility();
+                });
+            });
+
+            // Show More / Show Less
+            showMoreBtn.addEventListener('click', () => {
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                const totalVisible = Array.from(portfolioItems).filter(item => 
+                    (activeFilter === 'all' || item.getAttribute('data-type') === activeFilter)
+                ).length;
+
+                if (visibleCount < totalVisible) {
+                    // Show more: increase by 4, but not exceeding total
+                    visibleCount = Math.min(visibleCount + 4, totalVisible);
+                } else {
+                    // Show less: go back to 8
+                    visibleCount = 8;
+                }
+                updateVisibility();
+            });
+
+            // Initialize visibility
+            updateVisibility();
+
+            // ========== VIDEO MODAL ==========
+            const videoModal = document.getElementById('videoPlayerModal');
+            const videoIframe = document.getElementById('videoIframe');
+            const closeVideoModal = document.getElementById('closeVideoModal');
+            const portfolioGrid = document.getElementById('portfolioGrid');
+
+            portfolioGrid.addEventListener('click', (e) => {
+                const portfolioItem = e.target.closest('.portfolio-item');
+                if (!portfolioItem) return;
+                const videoId = portfolioItem.getAttribute('data-video-id');
+                if (videoId) {
+                    // Add &fs=0 to disable fullscreen button
+                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=0`;
+                    videoModal.classList.add('active');
+                }
+            });
+
+            closeVideoModal.addEventListener('click', () => {
+                videoModal.classList.remove('active');
+                videoIframe.src = '';
+            });
+
+            videoModal.addEventListener('click', (e) => {
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                    videoIframe.src = '';
+                }
+            });
+
+            // ========== MODALS (booking & whatsapp) ==========
+            const modalOverlay = document.getElementById('modalOverlay');
+            const bookingModal = document.getElementById('bookingModal');
+            const whatsappModal = document.getElementById('whatsappModal');
+            const toast = document.getElementById('toast');
+            const bookingForm = document.getElementById('bookingForm');
+
+            function resetBookingForm() { bookingForm.reset(); }
+            function openModal(modal) { modalOverlay.classList.add('active'); modal.classList.add('active'); }
+            function closeAllModals() {
+                modalOverlay.classList.remove('active');
+                bookingModal.classList.remove('active');
+                whatsappModal.classList.remove('active');
+                resetBookingForm();
+            }
+            modalOverlay.addEventListener('click', closeAllModals);
+            document.getElementById('closeBookingModal').addEventListener('click', closeAllModals);
+            document.getElementById('closeWhatsappModal').addEventListener('click', closeAllModals);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && (bookingModal.classList.contains('active') || whatsappModal.classList.contains('active'))) {
+                    closeAllModals();
+                }
+            });
+
+            // Book Now triggers
+            document.getElementById('bookNowNav').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+            document.getElementById('sidebarBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSidebarFunc();
+                openModal(bookingModal);
+            });
+            document.getElementById('footerBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+
+            // WhatsApp button functionality
+            const whatsappLink = document.getElementById('whatsappLink');
+            const whatsappServiceTitle = document.getElementById('whatsappServiceTitle');
+            const whatsappMessage = document.getElementById('whatsappMessage');
+            const baseWA = 'https://wa.me/9779817186819?text=';
+
+            // (No drone badges on this page, but keep code for consistency)
+
+            // Booking form submission (Formspree)
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(bookingForm);
+                const formspreeEndpoint = 'https://formspree.io/f/mrbalozl'; // UPDATE
+                try {
+                    const response = await fetch(formspreeEndpoint, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        closeAllModals();
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    } else {
+                        toast.innerText = 'Submission failed. Please try again.';
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    }
+                } catch (error) {
+                    toast.innerText = 'Network error. Please check your connection.';
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 4000);
+                }
+            });
+
+            // Smooth anchor links
+            document.querySelectorAll('a[href^="#"]:not(.social-link):not(.whatsapp-btn)').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#" || href === "") return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        })();
+    </script>
+    <!-- Important: Replace Formspree endpoint, Drive/YouTube links, and video sources with your actual files/links -->
+</body>
+</html>

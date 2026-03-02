@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alish Bhandari — Best Video Editor in Pokhara</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e1e2f;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ---------- Scroll Animation ---------- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: background 0.3s, padding 0.3s, box-shadow 0.3s;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(15px);
+            padding: 0.7rem 5%;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6b4a, #ff8a5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b4a;
+            border-bottom-color: #ff6b4a;
+        }
+
+        .register-btn {
+            background: #ff6b4a;
+            color: white !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem !important;
+            border-bottom: none !important;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.3);
+            cursor: pointer;
+            border: none;
+        }
+
+        .register-btn:hover {
+            background: #ff512b;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2.5px;
+            background: #2d2d3a;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            z-index: 300;
+            padding: 4rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2.2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+
+        .sidebar-links {
+            list-style: none;
+            margin-top: 3rem;
+        }
+
+        .sidebar-links li {
+            margin: 1.8rem 0;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: #2d2d3a;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .sidebar-links a:hover {
+            background: #fff0e8;
+            color: #ff6b4a;
+            padding-left: 1.5rem;
+        }
+
+        /* Sidebar book now special style - aligned perfectly */
+        .sidebar-book {
+            background: #ff6b4a;
+            color: white !important;
+            text-align: center;
+            border-radius: 30px !important;
+            padding: 0.3rem 0.8rem !important;
+            margin-top: 2rem;
+        }
+        .sidebar-book:hover {
+            background: #ff512b !important;
+            color: white !important;
+            padding-left: 0.8rem !important;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(3px);
+            z-index: 250;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 7rem 5% 4rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: #fafaff;
+            position: relative;
+        }
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 3rem;
+        }
+        .hero-left { flex: 1.1; }
+        .hero-right { flex: 0.9; position: relative; display: flex; justify-content: center; align-items: center; min-height: 360px; }
+        .floating-icons { position: relative; width: 100%; height: 320px; }
+        .float-icon { position: absolute; width: 65px; filter: drop-shadow(0 10px 12px rgba(255,107,74,0.2)); animation: bob 7s infinite ease-in-out; }
+        .float-icon img { width: 100%; height: auto; }
+        .float-icon:nth-child(1) { top: 5%; left: 10%; width: 70px; animation-delay: 0s; }
+        .float-icon:nth-child(2) { bottom: 10%; right: 5%; width: 85px; animation-delay: 1.2s; }
+        .float-icon:nth-child(3) { top: 25%; right: 20%; width: 60px; animation-delay: 2.5s; }
+        .float-icon:nth-child(4) { bottom: 20%; left: 5%; width: 75px; animation-delay: 0.8s; }
+        .profile-image { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; background: linear-gradient(145deg, #ff6b4a, #ffaa7a); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 30px rgba(255,107,74,0.3); z-index: 5; border: 4px solid white; }
+        .profile-image i { font-size: 4rem; color: white; }
+        @keyframes bob { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } 100% { transform: translateY(0) rotate(0deg); } }
+        .pre-title { color: #ff6b4a; font-weight: 600; letter-spacing: 1.5px; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; background: linear-gradient(145deg, #2d2d3a, #ff6b4a); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 1.2rem; max-width: 700px; }
+        .hero-points { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem 1.5rem; margin: 1.5rem 0 1rem; }
+        .point { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: #2d2d3a; text-align: left; }
+        .point i { color: #ff6b4a; font-size: 1rem; }
+        .ending-message { font-size: 1rem; color: #4a4a5a; margin: 1.5rem 0 0.5rem; border-left: 4px solid #ff8a5c; padding-left: 1.2rem; max-width: 500px; text-align: left; }
+        .nepal-block { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,107,74,0.08); padding: 0.4rem 1.5rem; border-radius: 40px; margin: 1rem 0 1.8rem; }
+        .nepal-block b { color: #2d2d3a; font-weight: 600; font-size: 1.1rem; }
+        .nepal-block img { height: 22px; }
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary, .btn-outline { padding: 0.7rem 2rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; border: none; }
+        .btn-primary { background: #ff6b4a; color: white; box-shadow: 0 10px 18px -8px #ff6b4a; }
+        .btn-primary:hover { background: #ff512b; transform: translateY(-3px); }
+        .btn-outline { border: 2px solid #ff6b4a; color: #ff6b4a; background: transparent; }
+        .btn-outline:hover { background: #ff6b4a; color: white; transform: translateY(-3px); }
+
+        /* Stats */
+        .features-section { padding: 3rem 5% 2rem; background: white; }
+        .features-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; }
+        .feature-card { background: #ffffff; border-radius: 24px; padding: 2rem 1.5rem; flex: 1 1 200px; max-width: 260px; text-align: center; box-shadow: 0 15px 30px -10px rgba(255,107,74,0.15); border: 1px solid rgba(255,107,74,0.1); transition: 0.3s; }
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 20px 35px -8px #ff8a5c; }
+        .feature-icon { font-size: 2.2rem; color: #ff6b4a; margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 2.2rem; font-weight: 700; background: linear-gradient(135deg, #ff6b4a, #ffaa7a); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1.2; }
+        .feature-card p { color: #5a5a70; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.3px; margin-top: 0.3rem; }
+
+        /* Companies */
+        .companies-section { padding: 2rem 5% 4rem; background: #ffffff; text-align: center; }
+        .companies-section h2 { font-size: 1.5rem; font-weight: 600; color: #2d2d3a; margin-bottom: 2rem; }
+        .logo-strip { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 2.5rem 3rem; }
+        .logo-item { display: flex; flex-direction: column; align-items: center; width: 120px; }
+        .logo-item .logo-image { width: 80px; height: 80px; background: #f0f0f5; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.8rem; box-shadow: 0 8px 15px rgba(0,0,0,0.05); transition: 0.3s; overflow: hidden; }
+        .logo-item .logo-image img { max-width: 70%; max-height: 70%; object-fit: contain; }
+        .logo-item .brand-name { font-size: 0.9rem; font-weight: 600; color: #2d2d3a; text-align: center; }
+
+        /* Services */
+        .services-section { padding: 3rem 5%; background: #f5f5fa; }
+        .section-heading { text-align: center; font-size: 2rem; font-weight: 700; color: #1e1e2f; margin-bottom: 2.5rem; }
+        .section-heading span { background: linear-gradient(135deg, #ff6b4a, #ffaa7a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .services-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1300px; margin: 0 auto; }
+        .service-card { background: white; border-radius: 28px; padding: 2rem 1.8rem; flex: 1 1 220px; max-width: 280px; text-align: left; box-shadow: 0 15px 25px -10px rgba(255,107,74,0.1); border: 1px solid #ffe2d6; transition: 0.3s; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: 0 22px 35px -10px #ff6b4a; }
+        .service-icon { width: 80px; height: 80px; background: #fff0e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; overflow: hidden; border: 2px solid rgba(255,107,74,0.2); }
+        .service-icon img { width: 55%; height: 55%; object-fit: contain; }
+        .service-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: #2d2d3a; }
+        .service-card p { font-size: 0.9rem; color: #5a5a70; }
+        .drone-badge { margin-top: 1rem; background: #ff6b4a10; border-radius: 50px; padding: 0.3rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #ff6b4a; border: 1px dashed #ff6b4a; cursor: pointer; transition: 0.2s; }
+        .drone-badge:hover { background: #ff6b4a20; }
+        .drone-badge img { height: 1.2em; width: auto; filter: brightness(0) saturate(100%) invert(45%) sepia(86%) saturate(1741%) hue-rotate(337deg) brightness(102%) contrast(101%); }
+
+        /* Message section */
+        .message-section { padding: 4rem 5%; background: white; }
+        .message-container { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; gap: 4rem; }
+        .message-photo { flex: 1 1 400px; display: flex; justify-content: center; }
+        .photo-placeholder { width: 380px; height: 380px; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 40px -12px rgba(255,107,74,0.4); border: 5px solid white; background: #f0f0f5; }
+        .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .message-text { flex: 1 1 500px; }
+        .message-pre { color: #ff6b4a; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 0.75rem; }
+        .message-text h2 { font-size: 2.5rem; font-weight: 700; color: #1e1e2f; margin-bottom: 1.5rem; }
+        .message-text h2 span { color: #ff6b4a; }
+        .message-quote { font-size: 1.2rem; color: #2d2d3a; line-height: 1.7; margin-bottom: 1.5rem; font-style: normal; border-left: 5px solid #ff8a5c; padding-left: 1.8rem; }
+        .signature { font-weight: 700; color: #ff6b4a; font-size: 1.3rem; }
+        .signature span { font-weight: 400; color: #5a5a70; font-size: 1rem; margin-left: 0.5rem; }
+
+        /* Why Alish */
+        .why-section { padding: 3rem 5%; background: white; }
+        .why-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; }
+        .why-left { flex: 1 1 300px; }
+        .why-left h2 { font-size: 2rem; font-weight: 800; line-height: 1.2; color: #1e1e2f; }
+        .why-left h2 .highlight { color: #ff6b4a; }
+        .why-left p { font-size: 1rem; color: #4a4a5a; margin: 1.5rem 0; max-width: 500px; }
+        .why-right { flex: 1 1 300px; display: flex; justify-content: center; }
+        .why-card { background: #fafaff; border-radius: 40px; padding: 2rem; border-left: 10px solid #ff6b4a; box-shadow: 0 20px 30px rgba(0,0,0,0.03); }
+        .why-card ul { list-style: none; }
+        .why-card li { margin: 1.2rem 0; display: flex; align-items: center; gap: 1rem; font-size: 1rem; color: #2d2d3a; }
+        .why-card li i { color: #ff6b4a; font-size: 1.3rem; }
+
+        /* Testimonials */
+        .testimonials-section { padding: 3rem 5% 4rem; background: #f5f5fa; }
+        .testimonials-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 1300px; margin: 2rem auto 0; }
+        .testimonial-card { background: white; border-radius: 30px; padding: 2rem; flex: 1 1 260px; max-width: 320px; box-shadow: 0 12px 25px -8px rgba(0,0,0,0.05); transition: 0.3s; text-align: left; }
+        .testimonial-card:hover { transform: scale(1.02); }
+        .testimonial-card i.fa-quote-left { color: #ffaa7a; font-size: 1.8rem; opacity: 0.4; margin-bottom: 0.5rem; }
+        .testimonial-card p { font-style: italic; color: #2d2d3a; margin-bottom: 1.2rem; }
+        .customer { display: flex; align-items: center; gap: 1rem; }
+        .customer .avatar { width: 45px; height: 45px; background: linear-gradient(145deg, #ff6b4a, #ffaa7a); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .customer h4 { font-size: 1rem; font-weight: 700; }
+        .customer span { font-size: 0.8rem; color: #888; }
+
+        /* FAQ */
+        .faq-section { padding: 3rem 5% 4rem; background: white; }
+        .faq-container { max-width: 900px; margin: 2rem auto 0; }
+        .faq-item { background: #fafaff; border-radius: 20px; padding: 1.5rem 2rem; margin-bottom: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.02); border-left: 6px solid #ff6b4a; cursor: pointer; transition: background 0.2s; }
+        .faq-item:hover { background: #fff5f0; }
+        .faq-question { font-weight: 700; font-size: 1.1rem; color: #2d2d3a; display: flex; align-items: center; gap: 0.8rem; pointer-events: none; }
+        .faq-question i { color: #ff6b4a; transition: transform 0.3s; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, margin 0.3s; color: #5a5a70; padding-left: 2rem; }
+        .faq-item.active .faq-answer { max-height: 300px; margin-top: 0.8rem; }
+        .faq-item.active .faq-question i { transform: rotate(90deg); }
+
+        /* Footer */
+        footer {
+            background: #1e1e2f;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+        .footer-links a:hover {
+            color: #ff6b4a;
+        }
+        .footer-links .footer-book {
+            background: #ff6b4a;
+            color: white;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            height: auto;
+        }
+        .footer-links .footer-book:hover {
+            background: #ff512b;
+            color: white;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .social-link {
+            color: #aaa;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: #2d2d3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            text-decoration: none !important;
+        }
+        .social-link:hover {
+            color: #ff6b4a;
+            background: #3d3d50;
+            transform: translateY(-4px);
+        }
+        .copyright {
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 1.8rem;
+            right: 1.8rem;
+            background: #ff6b4a;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 99;
+            box-shadow: 0 6px 14px rgba(255,107,74,0.5);
+            text-decoration: none;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #ff512b;
+            transform: scale(1.1);
+        }
+
+        /* MODAL STYLES (existing) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2.2rem;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #ff6b4a;
+            cursor: pointer;
+        }
+        .modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #1e1e2f;
+        }
+        .modal p {
+            color: #5a5a70;
+            margin-bottom: 1.5rem;
+        }
+        .modal form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .modal input, .modal select, .modal textarea {
+            font-family: 'Inter', sans-serif;
+            padding: 0.8rem 1.2rem;
+            border: 1.5px solid #eee;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #fafafa;
+        }
+        .modal input:focus, .modal select:focus, .modal textarea:focus {
+            border-color: #ff6b4a;
+            outline: none;
+            background: white;
+        }
+        .modal button[type="submit"] {
+            background: #ff6b4a;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+        .modal button[type="submit"]:hover {
+            background: #ff512b;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: block;
+        }
+
+        /* WhatsApp quick modal */
+        #whatsappModal .modal-content {
+            text-align: center;
+        }
+        #whatsappModal h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #1e1e2f;
+        }
+        #whatsappModal .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin: 1.5rem 0 0.5rem;
+            transition: 0.2s;
+        }
+        #whatsappModal .whatsapp-btn:hover {
+            background: #128C7E;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1e2f;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            white-space: nowrap;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            bottom: 50px;
+        }
+
+        /* ---------- NEW: Discount Popup Modal ---------- */
+        .discount-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .discount-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+        .discount-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: white;
+            padding: 2.5rem;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            z-index: 1600;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .discount-modal.active {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        .discount-modal .close-discount {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .discount-modal .close-discount.enabled {
+            color: #ff6b4a;
+        }
+        .discount-modal .close-discount.enabled:hover {
+            color: #ff512b;
+        }
+        .discount-modal h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1e1e2f;
+        }
+        .discount-modal h2 span {
+            color: #ff6b4a;
+        }
+        .discount-modal p {
+            font-size: 1.1rem;
+            color: #4a4a5a;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .discount-timer {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        .discount-timer i {
+            color: #ff6b4a;
+            margin-right: 0.3rem;
+        }
+        .discount-wa-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(37,211,102,0.3);
+            margin-top: 0.5rem;
+        }
+        .discount-wa-btn:hover {
+            background: #128C7E;
+            transform: scale(1.05);
+        }
+        @media (max-width: 500px) {
+            .discount-modal {
+                padding: 2rem 1.5rem;
+            }
+            .discount-modal h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-left {
+                text-align: left;
+            }
+            .hero-points {
+                grid-template-columns: 1fr;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-right {
+                width: 100%;
+                min-height: 280px;
+            }
+            .message-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            .message-text {
+                text-align: left;
+            }
+            .photo-placeholder {
+                width: 300px;
+                height: 300px;
+            }
+            .why-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .why-left p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .point {
+                font-size: 0.9rem;
+            }
+            .footer-links {
+                gap: 1rem;
+            }
+            .toast {
+                border-radius: 30px;
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                white-space: normal;
+                width: 90%;
+                max-width: none;
+                bottom: 20px;
+            }
+            .toast.show {
+                bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">AlishBhandari</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><button class="register-btn" id="bookNowNav">Book Now</button></li>
+        </ul>
+        <button class="hamburger" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeSidebar">&times;</button>
+        <ul class="sidebar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#" id="sidebarBookNow" class="sidebar-book">📅 Book Now</a></li>
+        </ul>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Hero section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <span class="pre-title">🎬 Video editor in Pokhara • 4+ years</span>
+                <h1>Congratulations! You landed at the right place</h1>
+                <div class="hero-points">
+                    <div class="point"><i class="fas fa-check-circle"></i> Sharp, engaging, polished edits</div>
+                    <div class="point"><i class="fas fa-check-circle"></i> Storytelling that boosts your brand</div>
+                    <div class="point"><i class="fas fa-check-circle"></i> Modern style, professional standards</div>
+                    <div class="point"><i class="fas fa-check-circle"></i> Reliable, never miss deadlines</div>
+                </div>
+                <p class="ending-message">Transforming your vision into cinematic reality with 4 years of editing expertise.</p>
+                <div class="nepal-block">
+                    <b>जे गर्छु, नेपालमै गर्छु ।</b>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Flag_of_Nepal.svg/28px-Flag_of_Nepal.svg.png" alt="Nepal Flag">
+                </div>
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn-primary"><i class="fas fa-play"></i> View Portfolio</a>
+                    <button class="btn-outline" id="connectWhatsappHero"><i class="fab fa-whatsapp"></i> Let's Connect</button>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="floating-icons">
+                    <div class="float-icon"><img src="https://cdn.worldvectorlogo.com/logos/premiere-pro-cc.svg" alt="Pr"></div>
+                    <div class="float-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_After_Effects_CC_icon.svg/1051px-Adobe_After_Effects_CC_icon.svg.png" alt="Ae"></div>
+                    <div class="float-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/DaVinci_Resolve_Studio.png" alt="Davinci"></div>
+                    <div class="float-icon"><img src="https://cdn.worldvectorlogo.com/logos/blender-2.svg" alt="Blender"></div>
+                </div>
+                <div class="profile-image">
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats cards (with animation) -->
+    <section class="features-section fade-up" id="stats">
+        <div class="features-container">
+            <div class="feature-card"><div class="feature-icon"><i class="far fa-calendar-alt"></i></div><h3><span class="stat-number" id="yearsCount">0</span>+</h3><p>Years Experience</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-film"></i></div><h3><span class="stat-number" id="projectsCount">0</span>k+</h3><p>Projects Completed</p></div>
+            <div class="feature-card"><div class="feature-icon"><i class="fas fa-handshake"></i></div><h3><span class="stat-number" id="collabCount">0</span>+</h3><p>Creative Collaborations</p></div>
+        </div>
+    </section>
+
+    <!-- Companies strip (with animation) -->
+    <section class="companies-section fade-up">
+        <h2>✨ Worked with Popular Brands like ✨</h2>
+        <div class="logo-strip">
+            <div class="logo-item"><div class="logo-image"><img src="assets/rara.png" alt="RARA Noodles Logo"></div><span class="brand-name">RARA Noodles</span></div>
+            <div class="logo-item"><div class="logo-image"><img src="assets/lions.png" alt="Lions Club Logo"></div><span class="brand-name">Lions Club</span></div>
+            <div class="logo-item"><div class="logo-image"><img src="assets/piuro.png" alt="Piuro Logo"></div><span class="brand-name">Piuro</span></div>
+            <div class="logo-item"><div class="logo-image"><img src="assets/lgasso.png" alt="LG Association Logo"></div><span class="brand-name">LG Association</span></div>
+            <div class="logo-item"><div class="logo-image"><img src="assets/anna.png" alt="Annapurna Cable Car Logo"></div><span class="brand-name">Ann. Cable Car</span></div>
+        </div>
+    </section>
+
+    <!-- Services (with animation) -->
+    <section class="services-section fade-up">
+        <h2 class="section-heading"><span>Services</span> I Provide</h2>
+        <div class="services-grid">
+            <div class="service-card" data-service="Video Editing">
+                <div class="service-icon"><img src="assets/editing.png" alt="Video Editing Icon"></div>
+                <h3>Video Editing</h3>
+                <p>Cinematic edits, color grading, storytelling for any project.</p>
+                <div class="drone-badge" data-service="Video Editing"><img src="images/check.png" alt=""> Enroll Now!</div>
+            </div>
+            <div class="service-card" data-service="Aerial Drone Cinematography">
+                <div class="service-icon"><img src="assets/drone.png" alt="Drone Footages Icon"></div>
+                <h3>Drone Footages</h3>
+                <p>Clicking, events coverage. I'm a licensed drone pilot.</p>
+                <div class="drone-badge" data-service="Aerial Drone Cinematography"><img src="images/check.png" alt=""> Enroll Now!</div>
+            </div>
+            <div class="service-card" data-service="Event Shoot">
+                <div class="service-icon"><img src="assets/camera.png" alt="Events Shoot Icon"></div>
+                <h3>Events Shoot</h3>
+                <p>Wedding, parties, corporate events – full coverage.</p>
+                <div class="drone-badge" data-service="Event Shoot"><img src="images/check.png" alt=""> Enroll Now!</div>
+            </div>
+            <div class="service-card" data-service="Editing Course">
+                <div class="service-icon"><img src="assets/course.png" alt="Editing Course Icon"></div>
+                <h3>Editing Course</h3>
+                <p>Budget‑friendly video editing course for beginners.</p>
+                <div class="drone-badge" data-service="Editing Course"><img src="images/check.png" alt=""> Enroll Now!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message from Alish (with animation) -->
+    <section class="message-section fade-up">
+        <div class="message-container">
+            <div class="message-photo"><div class="photo-placeholder"><img src="assets/alissh.jpg" alt="Alish Bhandari"></div></div>
+            <div class="message-text">
+                <div class="message-pre">Video editor from Pokhara</div>
+                <h2>Message from <span>Alish</span></h2>
+                <div class="message-quote">I started my journey as a video editor in Pokhara four years ago with just a dream. Today, at 19 years old, I’ve completed 2000+ projects and worked with brands across Nepal, building a reputation as one of the best video editors in Pokhara. My mission is to bring your story to life with precision, passion, and authentic Nepali creativity—whether it’s a cinematic edit, drone shot, or professional video production.<strong> जे गर्छु, नेपालमै गर्छु ।</strong></div>
+                <div class="signature">– Alish Bhandari <span>Video Editor & Drone Pilot</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Alish (with animation) -->
+    <section class="why-section fade-up">
+        <div class="why-container">
+            <div class="why-left"><h2>Why Alish is the <span class="highlight">best video editor in Pokhara</span></h2><p>With 4+ years of hands‑on experience, I’ve crafted stories for brands, agencies, and local creators. My editing style blends modern pacing with Nepali storytelling — all delivered on time.</p></div>
+            <div class="why-right"><div class="why-card"><ul><li><i class="fas fa-check-circle"></i> 4+ years pro experience</li><li><i class="fas fa-check-circle"></i> 2000+ happy projects</li><li><i class="fas fa-check-circle"></i> Drone pilot – aerial expertise</li><li><i class="fas fa-check-circle"></i> Trained 50+ students</li><li><i class="fas fa-check-circle"></i> Fast turnaround, 24/7 support</li></ul></div></div>
+        </div>
+    </section>
+
+    <!-- Testimonials (with animation) -->
+    <section class="testimonials-section fade-up">
+        <h2 class="section-heading"> 💬 Client <span>testimonials</span></h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>Alish transformed our raw footage into a stunning promo. He understood the brief perfectly. Highly recommend!</p><div class="customer"><div class="avatar">RB</div><div><h4>Rahul Basnet</h4><span>Studio Muncha</span></div></div></div>
+            <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>The drone shots he captured were breathtaking. He's not just an editor but a skilled pilot. Best in Pokhara!</p><div class="customer"><div class="avatar">SK</div><div><h4>Sarita KC</h4><span>Event Planner</span></div></div></div>
+            <div class="testimonial-card"><i class="fas fa-quote-left"></i><p>I took his editing course – budget friendly and very practical. Now I edit my own vlogs. Thanks Alish!</p><div class="customer"><div class="avatar">AP</div><div><h4>Aayush Poudel</h4><span>Student</span></div></div></div>
+        </div>
+    </section>
+
+    <!-- FAQ (with animation) -->
+    <section class="faq-section fade-up">
+        <h2 class="section-heading"> ❓ Frequently <span>asked questions</span></h2>
+        <div class="faq-container">
+            <div class="faq-item"><div class="faq-question"><i class="fas fa-chevron-right"></i> What software do you use for editing?</div><div class="faq-answer">I work with Premiere Pro, After Effects, DaVinci Resolve, and sometimes Blender for VFX.</div></div>
+            <div class="faq-item"><div class="faq-question"><i class="fas fa-chevron-right"></i> Do you travel for shoots?</div><div class="faq-answer">Absolutely! I'm based in Pokhara but available for projects anywhere in Nepal. Feel free to contact if you are outside from Pokhara.</div></div>
+            <div class="faq-item"><div class="faq-question"><i class="fas fa-chevron-right"></i> How long does a typical edit take?</div><div class="faq-answer">It depends on the project scope. A short reel can be completed under 24 hours, while full event edits take 2-3 days. I always communicate deadlines clearly.</div></div>
+            <div class="faq-item"><div class="faq-question"><i class="fas fa-chevron-right"></i> Is the editing course really budget-friendly?</div><div class="faq-answer">Yes! I keep my courses affordable so that anyone passionate about editing can learn. Contact me for current pricing.</div></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="contact.html">Contact</a>
+            <a href="#" id="footerBookNow" class="footer-book">Book Now</a>
+        </div>
+        <div class="social-links">
+            <a href="https://wa.me/9779817186819?text=Hello%20Alish%2C%20I%20am%20interested!" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/jhateygamingofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/@flowwithalish/playlists" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/flowwith.alish/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="copyright">© 2026 Alish Bhandari. All Rights Reserved. | Best Video Editor in Pokhara</p>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- MODALS (existing) -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Booking Form Modal -->
+    <div class="modal" id="bookingModal">
+        <button class="close-modal" id="closeBookingModal">&times;</button>
+        <h2>Book Your Service</h2>
+        <p>Fill in the details and we’ll get back to you.</p>
+        <form id="bookingForm">
+            <input type="text" name="fullname" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <select name="service" required>
+                <option value="">Select Service</option>
+                <option value="Video Editing Service">Video Editing Service</option>
+                <option value="Aerial Drone Cinematography">Aerial Drone Cinematography</option>
+                <option value="Event Shoot">Event Shoot</option>
+                <option value="Video Editing Class">Video Editing Class</option>
+            </select>
+            <!-- Phone input with validation: digits only, 7-15 characters -->
+            <input type="tel" name="phone" placeholder="Phone Number" required 
+                   pattern="[0-9]{7,15}" title="Please enter 7 to 15 digits only" 
+                   inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <textarea name="description" rows="3" placeholder="Tell me about your project..."></textarea>
+            <button type="submit">Submit Booking</button>
+        </form>
+    </div>
+
+    <!-- WhatsApp Quick Modal -->
+    <div class="modal" id="whatsappModal">
+        <button class="close-modal" id="closeWhatsappModal">&times;</button>
+        <div class="modal-content">
+            <h3 id="whatsappServiceTitle">Let's Connect</h3>
+            <p id="whatsappMessage">Click the button below to chat on WhatsApp and get a quick response.</p>
+            <a href="#" id="whatsappLink" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+    </div>
+
+    <!-- NEW: Discount Popup -->
+    <div class="discount-overlay" id="discountOverlay"></div>
+    <div class="discount-modal" id="discountModal">
+        <button class="close-discount" id="closeDiscountBtn" disabled>&times;</button>
+        <h2><span>Limited Time Offer!</span></h2>
+        <p>Get <strong>Special Discount</strong> on our Video Editing Package. Perfect for your next project. Grab the offer now!</p>
+        <div class="discount-timer">
+            <i class="fas fa-clock"></i> <span id="discountTimer">2</span>s remaining to close
+        </div>
+        <a href="https://wa.me/9779817186819?text=Hello%20Alish%2C%20I'm%20interested%20in%20the%20limited%20time%20video%20editing%20package.%20Please%20share%20details." class="discount-wa-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>Have a Deal
+        </a>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">Message sent successfully! We'll respond soon.</div>
+
+    <script>
+        (function() {
+            // navbar scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+
+            // sidebar
+            const hamburger = document.getElementById('hamburgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const closeBtn = document.getElementById('closeSidebar');
+            function openSidebar() { sidebar.classList.add('active'); overlay.classList.add('active'); }
+            function closeSidebarFunc() { sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+            hamburger.addEventListener('click', openSidebar);
+            closeBtn.addEventListener('click', closeSidebarFunc);
+            overlay.addEventListener('click', closeSidebarFunc);
+            document.querySelectorAll('.sidebar-links a').forEach(link => {
+                link.addEventListener('click', closeSidebarFunc);
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) closeSidebarFunc();
+            });
+
+            // back to top
+            const backBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 400) backBtn.classList.add('show');
+                else backBtn.classList.remove('show');
+            });
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Counters
+            const counters = [
+                { element: document.getElementById('yearsCount'), target: 4, suffix: '', isK: false },
+                { element: document.getElementById('projectsCount'), target: 2, suffix: 'k', isK: true },
+                { element: document.getElementById('collabCount'), target: 50, suffix: '', isK: false }
+            ];
+            counters.forEach(c => { if (c.isK) c.element.innerText = '0'; else c.element.innerText = '0'; });
+            let counted = false;
+            const statsSection = document.getElementById('stats');
+            function startCounters() {
+                if (counted) return;
+                counted = true;
+                counters.forEach(c => {
+                    let current = 0;
+                    const target = c.target;
+                    const step = target > 50 ? 1 : Math.ceil(target / 40);
+                    const interval = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            current = target;
+                            if (c.isK) c.element.innerText = current;
+                            else c.element.innerText = current;
+                            clearInterval(interval);
+                        } else {
+                            if (c.isK) c.element.innerText = current;
+                            else c.element.innerText = current;
+                        }
+                    }, 25);
+                });
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { startCounters(); observer.unobserve(entry.target); } });
+            }, { threshold: 0.3 });
+            observer.observe(statsSection);
+
+            // FAQ toggle
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => { item.addEventListener('click', () => { item.classList.toggle('active'); }); });
+
+            // ---------- SCROLL ANIMATION ----------
+            const fadeElements = document.querySelectorAll('.fade-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            fadeElements.forEach(el => fadeObserver.observe(el));
+
+            // ---------- MODALS (existing) ----------
+            const modalOverlay = document.getElementById('modalOverlay');
+            const bookingModal = document.getElementById('bookingModal');
+            const whatsappModal = document.getElementById('whatsappModal');
+            const toast = document.getElementById('toast');
+            const bookingForm = document.getElementById('bookingForm');
+
+            function resetBookingForm() {
+                bookingForm.reset();
+            }
+
+            function openModal(modal) {
+                modalOverlay.classList.add('active');
+                modal.classList.add('active');
+            }
+            function closeAllModals() {
+                modalOverlay.classList.remove('active');
+                bookingModal.classList.remove('active');
+                whatsappModal.classList.remove('active');
+                resetBookingForm();
+            }
+
+            modalOverlay.addEventListener('click', closeAllModals);
+            document.getElementById('closeBookingModal').addEventListener('click', closeAllModals);
+            document.getElementById('closeWhatsappModal').addEventListener('click', closeAllModals);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && (bookingModal.classList.contains('active') || whatsappModal.classList.contains('active'))) {
+                    closeAllModals();
+                }
+            });
+
+            // Book Now triggers
+            document.getElementById('bookNowNav').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+            document.getElementById('sidebarBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                closeSidebarFunc();
+                openModal(bookingModal);
+            });
+            document.getElementById('footerBookNow').addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(bookingModal);
+            });
+
+            // Let's Connect button opens WhatsApp modal
+            document.getElementById('connectWhatsappHero').addEventListener('click', (e) => {
+                e.preventDefault();
+                const customMsg = "Hello Alish, are you available for a project?";
+                document.getElementById('whatsappServiceTitle').innerText = 'General Inquiry';
+                document.getElementById('whatsappMessage').innerText = 'Click below to chat with Alish.';
+                document.getElementById('whatsappLink').href = 'https://wa.me/9779817186819?text=' + encodeURIComponent(customMsg);
+                openModal(whatsappModal);
+            });
+
+            // Service card Enroll Now! -> WhatsApp modal
+            const droneBadges = document.querySelectorAll('.drone-badge');
+            const whatsappLink = document.getElementById('whatsappLink');
+            const whatsappServiceTitle = document.getElementById('whatsappServiceTitle');
+            const whatsappMessage = document.getElementById('whatsappMessage');
+            const baseWA = 'https://wa.me/9779817186819?text=';
+
+            droneBadges.forEach(badge => {
+                badge.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const service = badge.getAttribute('data-service') || badge.closest('.service-card')?.getAttribute('data-service') || 'Service';
+                    let displayService = service;
+                    if (service === 'Aerial Drone Cinematography') displayService = 'Drone Cinematography';
+                    whatsappServiceTitle.innerText = displayService;
+                    let customMsg = '';
+                    switch(service) {
+                        case 'Video Editing':
+                            customMsg = "Hello Alish, I'm interested in your Video Editing service. Can we discuss?";
+                            break;
+                        case 'Aerial Drone Cinematography':
+                            customMsg = "Hello Alish, I'm looking for Drone Footage / Aerial Cinematography. Let's talk!";
+                            break;
+                        case 'Event Shoot':
+                            customMsg = "Hi Alish, I need an Event Shoot coverage. Please share details.";
+                            break;
+                        case 'Editing Course':
+                            customMsg = "Hello Alish, I want to join your Video Editing Course. Tell me more.";
+                            break;
+                        default:
+                            customMsg = `Hello Alish, I'm interested in your ${service}.`;
+                    }
+                    whatsappMessage.innerText = `Click below to chat about ${displayService}.`;
+                    whatsappLink.href = baseWA + encodeURIComponent(customMsg);
+                    openModal(whatsappModal);
+                });
+            });
+
+            // Booking form submission (Formspree) with toast
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(bookingForm);
+                // Replace with your actual Formspree endpoint
+                const formspreeEndpoint = 'https://formspree.io/f/mrbalozl'; // <-- UPDATE THIS
+
+                try {
+                    const response = await fetch(formspreeEndpoint, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        closeAllModals();
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    } else {
+                        toast.innerText = 'Submission failed. Please try again.';
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 4000);
+                    }
+                } catch (error) {
+                    toast.innerText = 'Network error. Please check your connection.';
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 4000);
+                }
+            });
+
+            // ---------- NEW: Discount Popup Logic ----------
+            const discountOverlay = document.getElementById('discountOverlay');
+            const discountModal = document.getElementById('discountModal');
+            const closeDiscountBtn = document.getElementById('closeDiscountBtn');
+            const discountTimerSpan = document.getElementById('discountTimer');
+            let timerSeconds = 2;  // <-- CHANGED FROM 5 TO 2
+            let timerInterval;
+
+            function openDiscountPopup() {
+                discountOverlay.classList.add('active');
+                discountModal.classList.add('active');
+                // Disable close button initially
+                closeDiscountBtn.disabled = true;
+                closeDiscountBtn.classList.remove('enabled');
+                timerSeconds = 2;  // <-- ALSO SET HERE TO ENSURE CORRECT VALUE
+                discountTimerSpan.textContent = timerSeconds;
+                // Start countdown
+                timerInterval = setInterval(() => {
+                    timerSeconds--;
+                    discountTimerSpan.textContent = timerSeconds;
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        closeDiscountBtn.disabled = false;
+                        closeDiscountBtn.classList.add('enabled');
+                    }
+                }, 1000);
+            }
+
+            function closeDiscountPopup() {
+                discountOverlay.classList.remove('active');
+                discountModal.classList.remove('active');
+                clearInterval(timerInterval);
+            }
+
+            // Show popup automatically after page load (with slight delay for smoothness)
+            window.addEventListener('load', () => {
+                setTimeout(openDiscountPopup, 500);
+            });
+
+            // Close button click (only when enabled)
+            closeDiscountBtn.addEventListener('click', (e) => {
+                if (!closeDiscountBtn.disabled) {
+                    closeDiscountPopup();
+                }
+            });
+
+            // Click on overlay also closes (only if enabled)
+            discountOverlay.addEventListener('click', () => {
+                if (!closeDiscountBtn.disabled) {
+                    closeDiscountPopup();
+                }
+            });
+
+            // Prevent closing by ESC until enabled
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && discountModal.classList.contains('active')) {
+                    if (!closeDiscountBtn.disabled) {
+                        closeDiscountPopup();
+                    }
+                }
+            });
+
+            // Smooth anchor links
+            document.querySelectorAll('a[href^="#"]:not(.social-link):not(.whatsapp-btn)').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#" || href === "") return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        })();
+    </script>
+    <!-- Important: Replace Formspree endpoint with your actual form ID -->
+</body>
+</html>
