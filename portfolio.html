@@ -9,6 +9,7 @@
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
     <style>
+        /* === ALL EXISTING STYLES REMAIN THE SAME === */
         * {
             margin: 0;
             padding: 0;
@@ -580,6 +581,36 @@
             height: 100%;
             border: none;
             border-radius: 16px;
+        }
+
+        /* Mobile full-screen fix for reel videos */
+        @media (max-width: 600px) {
+            .video-player-modal.reel-active .video-content {
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                aspect-ratio: auto;
+                background: black;
+            }
+
+            .video-player-modal.reel-active .close-button {
+                top: 10px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.5);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                color: white;
+            }
+
+            .video-player-modal.reel-active .video-iframe {
+                width: 100%;
+                height: 100%;
+            }
         }
 
         /* Footer (same as home) */
@@ -1526,7 +1557,7 @@
             // Initialize visibility
             updateVisibility();
 
-            // ========== VIDEO MODAL ==========
+            // ========== VIDEO MODAL (with autoplay fix) ==========
             const videoModal = document.getElementById('videoPlayerModal');
             const videoIframe = document.getElementById('videoIframe');
             const closeVideoModal = document.getElementById('closeVideoModal');
@@ -1536,21 +1567,31 @@
                 const portfolioItem = e.target.closest('.portfolio-item');
                 if (!portfolioItem) return;
                 const videoId = portfolioItem.getAttribute('data-video-id');
+                const videoType = portfolioItem.getAttribute('data-type');
                 if (videoId) {
-                    // Add &fs=0 to disable fullscreen button
-                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=0`;
+                    // Add &mute=1 to ensure autoplay works on all devices
+                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&fs=0`;
                     videoModal.classList.add('active');
+                    
+                    // Add 'reel-active' class only for vertical reel videos
+                    if (videoType === 'reel') {
+                        videoModal.classList.add('reel-active');
+                    } else {
+                        videoModal.classList.remove('reel-active');
+                    }
                 }
             });
 
             closeVideoModal.addEventListener('click', () => {
                 videoModal.classList.remove('active');
+                videoModal.classList.remove('reel-active');
                 videoIframe.src = '';
             });
 
             videoModal.addEventListener('click', (e) => {
                 if (e.target === videoModal) {
                     videoModal.classList.remove('active');
+                    videoModal.classList.remove('reel-active');
                     videoIframe.src = '';
                 }
             });
