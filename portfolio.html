@@ -9,7 +9,73 @@
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
     <style>
-        /* === ALL EXISTING STYLES REMAIN THE SAME === */
+        /* ---------- CSS Variables for Light/Dark Mode ---------- */
+        :root {
+            /* Light mode (default) */
+            --bg-body: #ffffff;
+            --text-primary: #1e1e2f;
+            --text-secondary: #4a4a5a;
+            --bg-navbar: rgba(255,255,255,0.8);
+            --navbar-border: rgba(0,0,0,0.05);
+            --bg-card: #ffffff;
+            --card-border: #ffe2d6;
+            --bg-section-light: #fafaff;
+            --bg-section-alt: #f5f5fa;
+            --footer-bg: #1e1e2f;
+            --footer-text: #ccc;
+            --footer-link-hover: #ff6b4a;
+            --shadow-color: rgba(255,107,74,0.15);
+            --icon-bg-light: #f0f0f5;
+            --testimonial-bg: #ffffff;
+            --faq-bg: #fafaff;
+            --faq-border: #ff6b4a;
+            --input-bg: #fafafa;
+            --input-border: #eee;
+            --modal-bg: #ffffff;
+            --discount-modal-bg: #ffffff;
+            --why-card-bg: #fafaff;
+            --filter-bg: #f5f5fa;
+            --filter-border: #ffe2d6;
+            --filter-text: #2d2d3a;
+            --portfolio-item-bg: transparent; /* keep transparent, border defines */
+            --stats-strip-bg: #fafaff;
+            --stats-strip-border: #ffe2d6;
+            --message-bg: #fafaff;
+        }
+
+        /* Dark mode variables – improved contrast */
+        body.dark-mode {
+            --bg-body: #121212;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --bg-navbar: rgba(30,30,30,0.95);
+            --navbar-border: rgba(255,255,255,0.05);
+            --bg-card: #252525;
+            --card-border: #444;
+            --bg-section-light: #202020;
+            --bg-section-alt: #282828;
+            --footer-bg: #0a0a0a;
+            --footer-text: #aaa;
+            --footer-link-hover: #ff8a5c;
+            --shadow-color: rgba(255,107,74,0.3);
+            --icon-bg-light: #333333;
+            --testimonial-bg: #2a2a2a;
+            --faq-bg: #252525;
+            --faq-border: #ff6b4a;
+            --input-bg: #333;
+            --input-border: #444;
+            --modal-bg: #252525;
+            --discount-modal-bg: #252525;
+            --why-card-bg: #252525;
+            --filter-bg: #2a2a2a;
+            --filter-border: #555;
+            --filter-text: #e0e0e0;
+            --portfolio-item-bg: #1e1e1e;
+            --stats-strip-bg: #202020;
+            --stats-strip-border: #333;
+            --message-bg: #202020;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,10 +84,11 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #1e1e2f;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
             line-height: 1.5;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         html {
@@ -51,13 +118,13 @@
             align-items: center;
             z-index: 100;
             transition: background 0.3s, padding 0.3s, box-shadow 0.3s;
-            background: rgba(255,255,255,0.8);
+            background: var(--bg-navbar);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--navbar-border);
         }
 
         .navbar.scrolled {
-            background: rgba(255,255,255,0.98);
+            background: var(--bg-navbar);
             backdrop-filter: blur(15px);
             padding: 0.7rem 5%;
             box-shadow: 0 6px 20px rgba(0,0,0,0.05);
@@ -82,7 +149,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #2d2d3a;
+            color: var(--text-primary);
             font-weight: 500;
             font-size: 0.95rem;
             transition: 0.2s;
@@ -113,6 +180,24 @@
             color: white;
         }
 
+        /* Theme toggle button */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            transition: transform 0.2s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            color: #ff6b4a;
+        }
+
         .hamburger {
             display: none;
             flex-direction: column;
@@ -128,7 +213,7 @@
         .hamburger span {
             width: 100%;
             height: 2.5px;
-            background: #2d2d3a;
+            background: var(--text-primary);
             border-radius: 4px;
             transition: 0.3s;
         }
@@ -140,7 +225,7 @@
             right: -300px;
             width: 260px;
             height: 100vh;
-            background: white;
+            background: var(--bg-card);
             z-index: 300;
             padding: 4rem 1.5rem;
             transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -173,7 +258,7 @@
 
         .sidebar-links a {
             text-decoration: none;
-            color: #2d2d3a;
+            color: var(--text-primary);
             font-size: 1.2rem;
             font-weight: 500;
             display: block;
@@ -222,7 +307,7 @@
         .hero-video-section {
             padding-top: 80px; /* Offset for fixed navbar */
             width: 100%;
-            background: #000;
+            background: #000; /* keep black for video area */
             position: relative;
         }
         .hero-video-container {
@@ -234,7 +319,7 @@
             width: 100%;
             height: auto;
             display: block;
-            pointer-events: none; /* disables play/pause, mute button separate */
+            pointer-events: none;
         }
         .mute-toggle {
             position: absolute;
@@ -260,14 +345,15 @@
 
         /* Engaging Stats/Customer Strip */
         .stats-strip {
-            background: #fafaff;
+            background: var(--stats-strip-bg);
             padding: 1.5rem 5%;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 2rem 4rem;
-            border-bottom: 1px solid #ffe2d6;
+            border-bottom: 1px solid var(--stats-strip-border);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .stat-item {
             display: flex;
@@ -281,18 +367,19 @@
         .stat-item .stat-content h4 {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #1e1e2f;
+            color: var(--text-primary);
         }
         .stat-item .stat-content p {
             font-size: 0.9rem;
-            color: #5a5a70;
+            color: var(--text-secondary);
         }
 
         /* Call to action buttons (Drive + YouTube) */
         .cta-buttons {
             text-align: center;
             padding: 2rem 5% 1rem;
-            background: #ffffff;
+            background: var(--bg-body);
+            transition: background 0.3s ease;
         }
         .cta-buttons .btn {
             display: inline-flex;
@@ -328,7 +415,8 @@
         /* Filter Buttons */
         .filter-section {
             padding: 1rem 5% 2rem;
-            background: white;
+            background: var(--bg-body);
+            transition: background 0.3s ease;
         }
         .filter-buttons {
             display: flex;
@@ -337,9 +425,9 @@
             gap: 0.8rem;
         }
         .filter-btn {
-            background: #f5f5fa;
-            border: 1px solid #ffe2d6;
-            color: #2d2d3a;
+            background: var(--filter-bg);
+            border: 1px solid var(--filter-border);
+            color: var(--filter-text);
             padding: 0.6rem 1.5rem;
             border-radius: 40px;
             font-weight: 600;
@@ -353,13 +441,14 @@
             border-color: #ff6b4a;
         }
         .filter-btn:hover {
-            background: #ff6b4a20;
+            background: rgba(255,107,74,0.2);
         }
 
         /* Portfolio Grid */
         .portfolio-section {
             padding: 0 5% 4rem;
-            background: white;
+            background: var(--bg-body);
+            transition: background 0.3s ease;
         }
         .portfolio-grid {
             display: grid;
@@ -373,10 +462,11 @@
             position: relative;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 15px 30px -10px rgba(255,107,74,0.2);
-            border: 1px solid #ffe2d6;
+            box-shadow: 0 15px 30px -10px var(--shadow-color);
+            border: 1px solid var(--card-border);
             cursor: pointer;
-            transition: transform 0.3s, opacity 0.3s ease;
+            transition: transform 0.3s, opacity 0.3s ease, border-color 0.3s ease;
+            background: var(--portfolio-item-bg); /* subtle bg */
         }
         .portfolio-item:hover {
             transform: translateY(-5px);
@@ -520,8 +610,9 @@
         /* Message after second video */
         .message-section {
             padding: 4rem 5%;
-            background: #fafaff;
+            background: var(--message-bg);
             text-align: center;
+            transition: background 0.3s ease;
         }
         .message-content {
             max-width: 800px;
@@ -530,7 +621,7 @@
         .message-content h2 {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #1e1e2f;
+            color: var(--text-primary);
             margin-bottom: 1.5rem;
         }
         .message-content h2 span {
@@ -538,7 +629,7 @@
         }
         .message-content p {
             font-size: 1.2rem;
-            color: #4a4a5a;
+            color: var(--text-secondary);
             line-height: 1.8;
         }
 
@@ -615,9 +706,10 @@
 
         /* Footer (same as home) */
         footer {
-            background: #1e1e2f;
+            background: var(--footer-bg);
             padding: 3rem 2rem 2rem;
             text-align: center;
+            transition: background 0.3s ease;
         }
         .footer-links {
             display: flex;
@@ -628,7 +720,7 @@
             margin-bottom: 2rem;
         }
         .footer-links a {
-            color: #ccc;
+            color: var(--footer-text);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
@@ -637,7 +729,7 @@
             align-items: center;
         }
         .footer-links a:hover {
-            color: #ff6b4a;
+            color: var(--footer-link-hover);
         }
         .footer-links .footer-book {
             background: #ff6b4a;
@@ -715,7 +807,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: var(--modal-bg);
             padding: 2.2rem;
             border-radius: 32px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.3);
@@ -724,6 +816,8 @@
             max-width: 550px;
             max-height: 85vh;
             overflow-y: auto;
+            border: 1px solid var(--card-border);
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
         .modal.active {
             display: block;
@@ -741,10 +835,10 @@
         .modal h2 {
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
-            color: #1e1e2f;
+            color: var(--text-primary);
         }
         .modal p {
-            color: #5a5a70;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
         }
         .modal form {
@@ -755,16 +849,17 @@
         .modal input, .modal select, .modal textarea {
             font-family: 'Inter', sans-serif;
             padding: 0.8rem 1.2rem;
-            border: 1.5px solid #eee;
+            border: 1.5px solid var(--input-border);
             border-radius: 30px;
             font-size: 0.95rem;
             transition: 0.2s;
-            background: #fafafa;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
         .modal input:focus, .modal select:focus, .modal textarea:focus {
             border-color: #ff6b4a;
             outline: none;
-            background: white;
+            background: var(--input-bg);
         }
         .modal button[type="submit"] {
             background: #ff6b4a;
@@ -798,7 +893,7 @@
         #whatsappModal h3 {
             font-size: 1.6rem;
             margin-bottom: 1rem;
-            color: #1e1e2f;
+            color: var(--text-primary);
         }
         #whatsappModal .whatsapp-btn {
             display: inline-flex;
@@ -900,11 +995,16 @@
             <li><a href="contact.html">Contact</a></li>
             <li><button class="register-btn" id="bookNowNav">Book Now</button></li>
         </ul>
-        <button class="hamburger" id="hamburgerBtn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <i class="fas fa-sun"></i>
+            </button>
+            <button class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
 
     <!-- Sidebar -->
@@ -1593,6 +1693,34 @@
                     videoModal.classList.remove('active');
                     videoModal.classList.remove('reel-active');
                     videoIframe.src = '';
+                }
+            });
+
+            // ========== DARK MODE TOGGLE ==========
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            // Check localStorage for saved theme
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                // default light mode
+                document.body.classList.remove('dark-mode');
+                icon.classList.add('fa-sun');
+                icon.classList.remove('fa-moon');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
                 }
             });
 
