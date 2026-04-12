@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="/webpic/apple-touch-icon.png">
-
-<link rel="icon" type="image/png" sizes="32x32" href="/webpic/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/webpic/favicon-16x16.png">
-
-<link rel="manifest" href="/webpic/site.webmanifest">
-
-<link rel="shortcut icon" href="/webpic/favicon.ico">
-
-
-
-
-    
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -791,6 +778,75 @@
         .show-more-btn.active i {
             transform: rotate(180deg);
         }
+
+
+
+
+/* Professional Mute Button inside Modal */
+.video-mute-toggle {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 44px;
+    height: 44px;
+    border-radius: 40px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.video-mute-toggle:hover {
+    background: #ff6b4a;
+    border-color: #ff6b4a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255,107,74,0.4);
+}
+
+/* Default position for landscape (16:9) videos – bottom left */
+.video-mute-toggle {
+    bottom: 20px;
+    left: 20px;
+}
+
+/* For vertical / reel videos – move to top left (avoids overlapping close button) */
+.video-player-modal.reel-active .video-mute-toggle {
+    bottom: auto;
+    top: 20px;
+    left: 20px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .video-mute-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    .video-player-modal.reel-active .video-mute-toggle {
+        top: 12px;
+        left: 12px;
+    }
+    .video-mute-toggle {
+        bottom: 12px;
+        left: 12px;
+    }
+}
+
+
+
+
+
+
+
+
+        
 
         /* Second Full-width Video Section */
         .second-video-section {
@@ -1571,13 +1627,14 @@
     </section>
 
     <!-- Video Player Modal (YouTube) - fullscreen disabled -->
-    <div class="video-player-modal" id="videoPlayerModal">
-        <div class="video-content">
-            <div class="close-button" id="closeVideoModal"><i class="fas fa-times"></i></div>
-            <iframe class="video-iframe" id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+  <div class="video-player-modal" id="videoPlayerModal">
+    <div class="video-content">
+        <div class="close-button" id="closeVideoModal"><i class="fas fa-times"></i></div>
+        <!-- NEW: custom mute/unmute button -->
+        <button class="video-mute-toggle" id="videoMuteToggle"><i class="fas fa-volume-mute"></i></button>
+        <iframe class="video-iframe" id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-
+</div>
     <!-- Footer -->
     <footer>
         <div class="footer-links">
@@ -1882,44 +1939,106 @@
             // Initialize visibility
             updateVisibility();
 
-            // ========== VIDEO MODAL (with autoplay fix) ==========
-            const videoModal = document.getElementById('videoPlayerModal');
-            const videoIframe = document.getElementById('videoIframe');
-            const closeVideoModal = document.getElementById('closeVideoModal');
-            const portfolioGrid = document.getElementById('portfolioGrid');
+           // ---------- IMPROVED VIDEO MODAL with YouTube API & CUSTOM MUTE BUTTON ----------
+const modal = document.getElementById('videoPlayerModal');
+const closeModalBtn = document.getElementById('closeVideoModal');
+const muteModalBtn = document.getElementById('videoMuteToggle');
+let currentPlayer = null;
 
-            portfolioGrid.addEventListener('click', (e) => {
-                const portfolioItem = e.target.closest('.portfolio-item');
-                if (!portfolioItem) return;
-                const videoId = portfolioItem.getAttribute('data-video-id');
-                const videoType = portfolioItem.getAttribute('data-type');
-                if (videoId) {
-                    // Add &mute=1 to ensure autoplay works on all devices
-                    videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&fs=0`;
-                    videoModal.classList.add('active');
-                    
-                    // Add 'reel-active' class only for vertical reel videos
-                    if (videoType === 'reel') {
-                        videoModal.classList.add('reel-active');
-                    } else {
-                        videoModal.classList.remove('reel-active');
-                    }
-                }
-            });
+// Load YouTube IFrame API dynamically
+function loadYouTubeAPI() {
+    if (window.YT && YT.Player) return Promise.resolve();
+    return new Promise((resolve) => {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        window.onYouTubeIframeAPIReady = () => resolve();
+    });
+}
 
-            closeVideoModal.addEventListener('click', () => {
-                videoModal.classList.remove('active');
-                videoModal.classList.remove('reel-active');
-                videoIframe.src = '';
-            });
+async function openVideo(videoId, isReel = false) {
+    await loadYouTubeAPI();
+    if (currentPlayer) {
+        currentPlayer.destroy();
+        currentPlayer = null;
+    }
+    modal.classList.add('active');
+    if (isReel) modal.classList.add('reel-active');
+    else modal.classList.remove('reel-active');
 
-            videoModal.addEventListener('click', (e) => {
-                if (e.target === videoModal) {
-                    videoModal.classList.remove('active');
-                    videoModal.classList.remove('reel-active');
-                    videoIframe.src = '';
-                }
-            });
+    // Create a fresh iframe element
+    const container = document.querySelector('.video-content');
+    let oldIframe = document.getElementById('videoIframe');
+    if (oldIframe) oldIframe.remove();
+    
+    const newIframe = document.createElement('iframe');
+    newIframe.id = 'videoIframe';
+    newIframe.className = 'video-iframe';
+    newIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    newIframe.setAttribute('allowfullscreen', '');
+    container.appendChild(newIframe);
+
+    // Initialize YouTube player
+    currentPlayer = new YT.Player('videoIframe', {
+        videoId: videoId,
+        playerVars: { autoplay: 1, mute: 1, controls: 1, modestbranding: 1, rel: 0, fs: 1 },
+        events: {
+            onReady: (event) => {
+                event.target.playVideo();
+                muteModalBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        }
+    });
+
+    // Custom mute button action
+    muteModalBtn.onclick = () => {
+        if (!currentPlayer) return;
+        if (currentPlayer.isMuted()) {
+            currentPlayer.unMute();
+            muteModalBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        } else {
+            currentPlayer.mute();
+            muteModalBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
+    };
+}
+
+function closeModalAndDestroy() {
+    modal.classList.remove('active');
+    modal.classList.remove('reel-active');
+    if (currentPlayer) {
+        currentPlayer.destroy();
+        currentPlayer = null;
+    }
+    // Reset iframe to empty
+    const container = document.querySelector('.video-content');
+    const oldIframe = document.getElementById('videoIframe');
+    if (oldIframe) oldIframe.remove();
+    const freshIframe = document.createElement('iframe');
+    freshIframe.id = 'videoIframe';
+    freshIframe.className = 'video-iframe';
+    freshIframe.src = '';
+    freshIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    container.appendChild(freshIframe);
+}
+
+// Attach click event to portfolio items
+document.querySelectorAll('.portfolio-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        const vidId = item.getAttribute('data-video-id');
+        if (!vidId) return;
+        const type = item.getAttribute('data-type');
+        const isReel = (type === 'reel');
+        openVideo(vidId, isReel);
+    });
+});
+
+closeModalBtn.addEventListener('click', closeModalAndDestroy);
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModalAndDestroy();
+});
+
 
             // ========== DARK MODE TOGGLE ==========
             const themeToggle = document.getElementById('themeToggle');
